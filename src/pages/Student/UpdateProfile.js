@@ -119,9 +119,7 @@ const UpdateProfile = () => {
                                 <div className="d-flex justify-content-center my-3">
                                     <Alert
                                         message={
-                                            <>
-                                                <b>Security Answer:</b> Enter new answer to update or Leave blank to unchanged.<br />
-                                                <b>Password:</b> Enter only old password to continue or Enter both old and new password to update password.
+                                            <>                                               <b>Password:</b> Enter only old password to continue or Enter both old and new password to update password.
                                             </>
                                         }
                                         type="info"
