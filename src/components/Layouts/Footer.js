@@ -34,9 +34,14 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
+
             <div className='text-center my-4'>
-                <h4><span>All Rights Reserved &copy; 2025</span> <span>5points Academy</span></h4>
+                <div className='d-flex flex-column flex-sm-row justify-content-center align-items-center h4'>
+                    <span>All Rights Reserved &copy; 2025</span>
+                    <span className='ms-sm-2'>5points Academy</span>
+                </div>
             </div>
+
             <hr />
 
             {/* Developer Credit */}
