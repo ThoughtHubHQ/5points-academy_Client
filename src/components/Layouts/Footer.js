@@ -38,24 +38,28 @@ const Footer = () => {
                 <h4>All Rights Reserved &copy; 2025 5points Academy</h4>
             </div>
             <hr />
+
+            {/* Developer Credit */}
             <div className="text-center my-2 text-secondary">
-                <span className="text-end">
-                    Developed & Maintained by{' '}
+                <div className="d-flex flex-column flex-md-row justify-content-center align-items-center">
+                    <span className="me-md-1 mb-1 mb-md-0">Developed & Maintained by</span>
                     <a
-                        href="https://thoughthub.notion.site"
+                        href="https://thoughthubhq.site"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center"
+                        className="d-inline-flex align-items-center"
                     >
                         <img
                             src="/images/thoughthub-logo.png"
                             alt="ThoughtHub Logo"
-                            style={{ height: '24px', marginRight: '5px', verticalAlign: 'middle' }}
+                            className="me-1 rounded"
+                            style={{ height: '24px' }}
                         />
-                        <strong className='text-secondary'>ThoughtHub</strong>
+                        <strong >ThoughtHub</strong>
                     </a>
-                </span>
+                </div>
             </div>
+
 
         </div>
     );
