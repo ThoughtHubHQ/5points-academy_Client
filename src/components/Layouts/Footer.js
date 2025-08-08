@@ -34,8 +34,8 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className='text-center my-5'>
-                <h4>All Rights Reserved &copy; 2025 5points Academy</h4>
+            <div className='text-center my-4'>
+                <h4><span>All Rights Reserved &copy; 2025</span> <span>5points Academy</span></h4>
             </div>
             <hr />
 
