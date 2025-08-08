@@ -8,8 +8,8 @@ const Footer = () => {
                 <div className="row">
                     <div className='d-lg-flex justify-content-between'>
                         <div className='text-center mt-3'>
-                            <h5 className='text-md-start my-4'>We are </h5>
-                            <p className="d-md-flex justify-content-between">
+                            <h5 className='text-lg-start my-4'>We are </h5>
+                            <p className="d-md-flex justify-content-center">
                                 <Link to="/about">About Us</Link>
 
                                 <Link to="/contact">Contact</Link>
@@ -19,14 +19,12 @@ const Footer = () => {
                         </div>
 
                         <div className='text-center mt-3'>
-                            <h5 className='text-md-end my-4'>Follow Us</h5>
-                            <div className="d-md-flex justify-content-between">
+                            <h5 className='text-lg-end my-4'>Follow Us</h5>
+                            <div className="d-md-flex justify-content-center">
                                 <Link to="https://www.facebook.com/5pointsAcademy" target='_blank'>
-                                    <i className="h3 fab fa-facebook-f"></i>
+                                    <i className="h3 fa-brands fa-square-facebook" />
                                 </Link>
-                                <Link to="https://www.instagram.com/ashikurrb" target='_blank'>
-                                    <i className="h3 fab fa-instagram"></i>
-                                </Link> <Link to="https://www.youtube.com/@5pointsAcademy" target='_blank'>
+                                <Link to="https://www.youtube.com/@5pointsAcademy" target='_blank'>
                                     <i className="h3 fab fa-youtube"></i>
                                 </Link>
                             </div>
