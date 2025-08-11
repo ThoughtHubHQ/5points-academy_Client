@@ -37,7 +37,7 @@ const ViewResult = () => {
 
     //show result by month group
     const groupedResults = results.reduce((acc, r) => {
-        const monthYear = dayjs(r.examDate).format("MMMM YYYY"); 
+        const monthYear = dayjs(r.examDate).format("MMMM YYYY");
         if (!acc[monthYear]) {
             acc[monthYear] = [];
         }
@@ -62,7 +62,7 @@ const ViewResult = () => {
                                     <Spinner />
                                 </div>
                             ) : (
-                                <table className="table table-striped">
+                                <table className="table table-striped mt-3">
                                     <thead className='table-dark'>
                                         <tr>
                                             <th scope="col">#</th>
@@ -82,7 +82,7 @@ const ViewResult = () => {
                                                 </td>
                                             </tr>
                                         ) : (
-                                           Object.keys(groupedResults).map((month) => (
+                                            Object.keys(groupedResults).map((month) => (
                                                 <>
                                                     <tr className="table-primary">
                                                         <td colSpan="5" className="fw-bold">{month}</td>
