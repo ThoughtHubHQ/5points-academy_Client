@@ -35,6 +35,16 @@ const ViewResult = () => {
         getResult();
     }, []);
 
+    //show result by month group
+    const groupedResults = results.reduce((acc, r) => {
+        const monthYear = dayjs(r.examDate).format("MMMM YYYY"); 
+        if (!acc[monthYear]) {
+            acc[monthYear] = [];
+        }
+        acc[monthYear].push(r);
+        return acc;
+    }, {});
+
     return (
         <Layout title={"Dashboard - Result"}>
             <div className="container-fluid mt-3 p-3">
@@ -47,19 +57,23 @@ const ViewResult = () => {
                             <i class="fa-solid fa-square-poll-vertical pe-1"></i> Result
                         </h3>
                         <div className="card mt-3 p-4 table-container">
-                            {spinnerLoading ? <div className="d-flex flex-column align-items-center justify-content-center" style={{ height: "50vh" }}><Spinner /></div> : <table className="table table-striped">
-                                <thead className='table-dark'>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Grade</th>
-                                        <th scope="col">Exam</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Result</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        results.length === 0 ? (
+                            {spinnerLoading ? (
+                                <div className="d-flex flex-column align-items-center justify-content-center" style={{ height: "50vh" }}>
+                                    <Spinner />
+                                </div>
+                            ) : (
+                                <table className="table table-striped">
+                                    <thead className='table-dark'>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Grade</th>
+                                            <th scope="col">Exam</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {results.length === 0 ? (
                                             <tr>
                                                 <td colSpan="6" className="text-center">
                                                     <div className="my-5">
@@ -68,25 +82,31 @@ const ViewResult = () => {
                                                 </td>
                                             </tr>
                                         ) : (
-                                            results.map((r, i) => {
-                                                return (
-                                                    <tr key={r._id}>
-                                                        <th scope='row'>{i + 1}</th>
-                                                        <td>{r.grade.name}</td>
-                                                        <td>{r.type}</td>
-                                                        <td>{dayjs(r.examDate).format('MMM DD, YYYY')}</td>
-                                                        <td>
-                                                            <button className="btn btn-outline-primary" onClick={() => openModal(r)}>
-                                                                <i className="fa-solid fa-square-poll-vertical" />
-                                                            </button>
-                                                        </td>
+                                           Object.keys(groupedResults).map((month) => (
+                                                <>
+                                                    <tr className="table-primary">
+                                                        <td colSpan="5" className="fw-bold">{month}</td>
                                                     </tr>
-                                                )
-                                            })
-                                        )
-                                    }
-                                </tbody>
-                            </table>}
+
+                                                    {groupedResults[month].map((r, i) => (
+                                                        <tr key={r?._id}>
+                                                            <th scope='row'>{i + 1}</th>
+                                                            <td>{r?.grade.name}</td>
+                                                            <td>{r?.type}</td>
+                                                            <td>{dayjs(r?.examDate).format('MMM DD, YYYY')}</td>
+                                                            <td>
+                                                                <button className="btn btn-outline-primary" onClick={() => openModal(r)}>
+                                                                    <i className="fa-solid fa-square-poll-vertical" />
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
                     </div>
                 </div>

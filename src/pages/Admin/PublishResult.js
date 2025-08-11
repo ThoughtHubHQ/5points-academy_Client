@@ -409,14 +409,19 @@ const PublishResult = () => {
                                     </Select>
                                 </div>
                                 <div className="d-lg-flex">
-                                    <Input
-                                        type="text"
-                                        placeholder='Exam Type'
+                                    <Select
+                                        placeholder="Exam Type"
                                         className='mb-3 me-2 w-100'
                                         size='large'
-                                        value={type}
-                                        onChange={(e) => setType(e.target.value)} required
-                                    />
+                                        value={type || undefined}
+                                        onChange={(value) => { setType(value) }}
+                                        required
+                                    >
+                                        <Option value="Monthly Chapter Basis Test">Monthly Chapter Basis Test</Option>
+                                        <Option value="Special Test">Special Test</Option>
+                                        <Option value="Paid Model Test">Paid Model Test</Option>
+                                        <Option value="Free Model Test">Free Model Test</Option>
+                                    </Select>
                                     <DatePicker
                                         placeholder='Exam Date'
                                         format={dateFormat}
@@ -458,15 +463,25 @@ const PublishResult = () => {
                                                 />
                                             </div>
                                             <div className="d-flex">
-                                                <Input
-                                                    type="text"
+                                                <Select
                                                     placeholder='Set'
                                                     className='mb-3 me-2 w-100'
                                                     size='large'
-                                                    value={field.set}
-                                                    onChange={(e) => handleFieldChange(index, 'set', e.target.value)}
+                                                    value={field.set || undefined}
+                                                    onChange={(value) => handleFieldChange(index, 'set', value)}
                                                     required
-                                                />
+                                                >
+                                                    <Option value={1}>1</Option>
+                                                    <Option value={2}>2</Option>
+                                                    <Option value={3}>3</Option>
+                                                    <Option value={4}>4</Option>
+                                                    <Option value={5}>5</Option>
+                                                    <Option value={6}>6</Option>
+                                                    <Option value={7}>7</Option>
+                                                    <Option value={8}>8</Option>
+                                                    <Option value={9}>9</Option>
+                                                    <Option value={10}>10</Option>
+                                                </Select>
                                                 <Input
                                                     type="text"
                                                     placeholder='Question Pattern'
@@ -634,14 +649,19 @@ const PublishResult = () => {
 
                 <form onSubmit={handleUpdate}>
                     <div className="mt-4 d-lg-flex">
-                        <Input
-                            type="text"
-                            placeholder='Exam Type'
+                        <Select
+                            placeholder="Exam Type"
                             className='mb-3 me-2 w-100'
                             size='large'
-                            value={updatedType}
-                            onChange={(e) => setUpdatedType(e.target.value)} required
-                        />
+                            value={updatedType || undefined}
+                            onChange={(value) => { setUpdatedType(value) }}
+                            required
+                        >
+                            <Option value="Monthly Chapter Basis Test">Monthly Chapter Basis Test</Option>
+                            <Option value="Special Test">Special Test</Option>
+                            <Option value="Paid Model Test">Paid Model Test</Option>
+                            <Option value="Free Model Test">Free Model Test</Option>
+                        </Select>
                         <DatePicker
                             placeholder='Exam Date'
                             value={updatedExamDate}
@@ -683,15 +703,25 @@ const PublishResult = () => {
                                     />
                                 </div>
                                 <div className="d-flex">
-                                    <Input
-                                        type="text"
+                                    <Select
                                         placeholder='Set'
                                         className='mb-3 me-2 w-100'
                                         size='large'
-                                        value={updateField.set}
-                                        onChange={(e) => handleUpdatedFieldChange(index, 'set', e.target.value)}
+                                        value={updateField.set || undefined}
+                                        onChange={(value) => handleUpdatedFieldChange(index, 'set', value)}
                                         required
-                                    />
+                                    >
+                                        <Option value={1}>1</Option>
+                                        <Option value={2}>2</Option>
+                                        <Option value={3}>3</Option>
+                                        <Option value={4}>4</Option>
+                                        <Option value={5}>5</Option>
+                                        <Option value={6}>6</Option>
+                                        <Option value={7}>7</Option>
+                                        <Option value={8}>8</Option>
+                                        <Option value={9}>9</Option>
+                                        <Option value={10}>10</Option>
+                                    </Select>
                                     <Input
                                         type="text"
                                         placeholder='Pattern'
