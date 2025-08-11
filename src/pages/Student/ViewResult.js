@@ -77,7 +77,7 @@ const ViewResult = () => {
                                                         <td>{dayjs(r.examDate).format('MMM DD, YYYY')}</td>
                                                         <td>
                                                             <button className="btn btn-outline-primary" onClick={() => openModal(r)}>
-                                                            <i className="fa-solid fa-square-poll-vertical" />
+                                                                <i className="fa-solid fa-square-poll-vertical" />
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -91,20 +91,24 @@ const ViewResult = () => {
                     </div>
                 </div>
             </div>
-            <Modal open={visible} onCancel={() => setVisible(false)} footer={null}>
+            <Modal open={visible} onCancel={() => setVisible(false)} width={750} footer={null}>
                 <div>
                     <h5 className='text-center'>
-                      Result
+                        Result
                     </h5>
                     <h6 className='text-center my-3'>
-                          {selected?.type}: {selected?.examDate && dayjs(selected.examDate).format('MMM DD, YYYY')}
+                        {selected?.type}: {selected?.examDate && dayjs(selected.examDate).format('MMM DD, YYYY')}
                     </h6>
                     <table className="table table-striped">
                         <thead className='table-dark'>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Subject</th>
-                                <th scope="col">Marks</th>
+                                <th scope="col">Chapter/Topic</th>
+                                <th scope="col">Set</th>
+                                <th scope="col">Pattern</th>
+                                <th scope="col">Obtained</th>
+                                <th scope="col">Highest</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,7 +118,11 @@ const ViewResult = () => {
                                         <tr key={i}>
                                             <td>{i + 1}</td>
                                             <td>{s.subject}</td>
-                                            <td>{s.marks}</td>
+                                            <td>{s.topic}</td>
+                                            <td>{s.set}</td>
+                                            <td>{s.pattern}</td>
+                                            <td>{s.obtainedMarks}</td>
+                                            <td>{s.highestMarks}</td>
                                         </tr>
                                     )
                                 })

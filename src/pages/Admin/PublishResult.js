@@ -31,8 +31,8 @@ const PublishResult = () => {
     const [createModalVisible, setIsCreateModalVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedResult, setSelectedResult] = useState([]);
-    const [subjects, setSubjects] = useState([{ subject: '', marks: '' }]);
-    const [updatedSubjects, setUpdatedSubjects] = useState([{ subject: '', marks: '' }]);
+    const [subjects, setSubjects] = useState([{ subject: '', topic: '', set: '', pattern: '', obtainedMarks: '', highestMarks: '' }]);
+    const [updatedSubjects, setUpdatedSubjects] = useState([{ subject: '', topic: '', set: '', pattern: '', obtainedMarks: '', highestMarks: '' }]);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalResult, setModalResult] = useState(null);
 
@@ -97,7 +97,7 @@ const PublishResult = () => {
     // Create Form
     const handleAddField = (indexToAdd) => {
         const newSubjects = [...subjects];
-        newSubjects.splice(indexToAdd + 1, 0, { subject: '', marks: '' });
+        newSubjects.splice(indexToAdd + 1, 0, { subject: '', topic: '', set: '', pattern: '', obtainedMarks: '', highestMarks: '' });
         setSubjects(newSubjects);
     };
 
@@ -167,7 +167,7 @@ const PublishResult = () => {
                 // Clear form fields
                 setUser(undefined);
                 setType('');
-                setSubjects([{ subject: '', marks: '' }]); 
+                setSubjects([{ subject: '', marks: '' }]);
                 setExamDate(undefined);
                 setListSpinnerLoading(false);
             } else {
@@ -368,7 +368,7 @@ const PublishResult = () => {
                                 </button>
                             )}
                         </div>
-                        <Modal width={650} open={createModalVisible} onCancel={createModalCancel} footer={null} maskClosable={false}>
+                        <Modal width={750} open={createModalVisible} onCancel={createModalCancel} footer={null} maskClosable={false}>
                             <h5 className='text-center mb-3'>Publish Result</h5>
                             <form onSubmit={handlePublish}>
                                 <div className="mt-4 d-lg-flex">
@@ -428,38 +428,83 @@ const PublishResult = () => {
                                     />
                                 </div>
                                 {subjects.map((field, index) => (
-                                    <div className="d-flex" key={index}>
+                                    <div className='d-flex' key={index}>
+                                        <button
+                                            className='btn btn-light mb-3 me-2 p-0'
+                                            onClick={() => handleRemoveField(index)}
+                                            type="button"
+                                        >
+                                            <i className="fa-solid fa-circle-minus" />
+                                        </button>
+                                        <div className='w-100 mt-3'>
+                                            <div className="d-flex">
+                                                <Input
+                                                    type="text"
+                                                    placeholder={`Subject ${index + 1}`}
+                                                    className='mb-3 me-2 w-100'
+                                                    size='large'
+                                                    value={field.subject}
+                                                    onChange={(e) => handleFieldChange(index, 'subject', e.target.value)}
+                                                    required
+                                                />
+                                                <Input
+                                                    type="text"
+                                                    placeholder='Chapter / Topic'
+                                                    className='mb-3 w-100'
+                                                    size='large'
+                                                    value={field.topic}
+                                                    onChange={(e) => handleFieldChange(index, 'topic', e.target.value)}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="d-flex">
+                                                <Input
+                                                    type="text"
+                                                    placeholder='Set'
+                                                    className='mb-3 me-2 w-100'
+                                                    size='large'
+                                                    value={field.set}
+                                                    onChange={(e) => handleFieldChange(index, 'set', e.target.value)}
+                                                    required
+                                                />
+                                                <Input
+                                                    type="text"
+                                                    placeholder='Question Pattern'
+                                                    className='mb-3 w-100'
+                                                    size='large'
+                                                    value={field.pattern}
+                                                    onChange={(e) => handleFieldChange(index, 'pattern', e.target.value)}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="d-flex">
+                                                <Input
+                                                    type="text"
+                                                    placeholder='Obtained Marks'
+                                                    className='mb-3 me-2 w-100'
+                                                    size='large'
+                                                    value={field.obtainedMarks}
+                                                    onChange={(e) => handleFieldChange(index, 'obtainedMarks', e.target.value)}
+                                                    required
+                                                />
+                                                <Input
+                                                    type="text"
+                                                    placeholder='Highest Marks'
+                                                    className='mb-3 w-100'
+                                                    size='large'
+                                                    value={field.highestMarks}
+                                                    onChange={(e) => handleFieldChange(index, 'highestMarks', e.target.value)}
+                                                    required
+                                                />
+                                            </div>
+                                            <hr />
+                                        </div>
                                         <button
                                             onClick={() => handleAddField(index)}
                                             type="button"
-                                            className='btn btn-light mb-3 me-2 p-0 mt-0'
-                                        >
-                                            <i className="fa-solid fa-circle-plus" />
-                                        </button>
-                                        <Input
-                                            type="text"
-                                            placeholder={`Subject ${index + 1}`}
-                                            className='mb-3 me-2 w-100'
-                                            size='large'
-                                            value={field.subject}
-                                            onChange={(e) => handleFieldChange(index, 'subject', e.target.value)}
-                                            required
-                                        />
-                                        <Input
-                                            type="text"
-                                            placeholder='Marks'
-                                            className='mb-3 w-100'
-                                            size='large'
-                                            value={field.marks}
-                                            onChange={(e) => handleFieldChange(index, 'marks', e.target.value)}
-                                            required
-                                        />
-                                        <button
-                                            onClick={() => handleRemoveField(index)}
-                                            type="button"
                                             className='btn btn-light mb-3 ms-2 p-0 mt-0'
                                         >
-                                            <i className="fa-solid fa-circle-minus" />
+                                            <i className="fa-solid fa-circle-plus" />
                                         </button>
                                     </div>
                                 ))}
@@ -573,7 +618,7 @@ const PublishResult = () => {
                     </div>
                 </div>
             </div>
-            <Modal onCancel={() => setVisible(false)} open={visible} footer={null} destroyOnClose={true}>
+            <Modal onCancel={() => setVisible(false)} open={visible} footer={null} width={750} destroyOnClose={true}>
                 <h5 className='text-center'>Update Result</h5>
                 <div className='text-center my-3'>
                     <span className="d-flex justify-content-center align-items-center">
@@ -608,38 +653,83 @@ const PublishResult = () => {
                         />
                     </div>
                     {updatedSubjects.map((updateField, index) => (
-                        <div className="d-flex" key={index}>
-                            <button
-                                onClick={() => updatedAddField(index)}
-                                type="button"
-                                className='btn btn-light mb-3 me-2 p-0'
-                            >
-                                <i className="fa-solid fa-circle-plus" />
-                            </button>
-                            <Input
-                                type="text"
-                                placeholder={`Subject ${index + 1}`}
-                                className='mb-3 me-2 w-100'
-                                size='large'
-                                value={updateField.subject}
-                                onChange={(e) => handleUpdatedFieldChange(index, 'subject', e.target.value)}
-                                required
-                            />
-                            <Input
-                                type="text"
-                                placeholder='Marks'
-                                className='mb-3 w-100'
-                                size='large'
-                                value={updateField.marks}
-                                onChange={(e) => handleUpdatedFieldChange(index, 'marks', e.target.value)}
-                                required
-                            />
+                        <div className='d-flex' key={index}>
                             <button
                                 onClick={() => updatedRemoveField(index)}
                                 type="button"
-                                className='btn btn-light mb-3 ms-2 p-0'
+                                className='btn btn-light mb-3 me-2 p-0'
                             >
                                 <i className="fa-solid fa-circle-minus" />
+                            </button>
+                            <div className='w-100 mt-3'>
+                                <div className="d-flex">
+                                    <Input
+                                        type="text"
+                                        placeholder={`Subject ${index + 1}`}
+                                        className='mb-3 me-2 w-100'
+                                        size='large'
+                                        value={updateField.subject}
+                                        onChange={(e) => handleUpdatedFieldChange(index, 'subject', e.target.value)}
+                                        required
+                                    />
+                                    <Input
+                                        type="text"
+                                        placeholder='Chapter/Topic'
+                                        className='mb-3 w-100'
+                                        size='large'
+                                        value={updateField.topic}
+                                        onChange={(e) => handleUpdatedFieldChange(index, 'topic', e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="d-flex">
+                                    <Input
+                                        type="text"
+                                        placeholder='Set'
+                                        className='mb-3 me-2 w-100'
+                                        size='large'
+                                        value={updateField.set}
+                                        onChange={(e) => handleUpdatedFieldChange(index, 'set', e.target.value)}
+                                        required
+                                    />
+                                    <Input
+                                        type="text"
+                                        placeholder='Pattern'
+                                        className='mb-3 w-100'
+                                        size='large'
+                                        value={updateField.pattern}
+                                        onChange={(e) => handleUpdatedFieldChange(index, 'pattern', e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="d-flex">
+                                    <Input
+                                        type="text"
+                                        placeholder='Obtained Marks'
+                                        className='mb-3 me-2 w-100'
+                                        size='large'
+                                        value={updateField.obtainedMarks}
+                                        onChange={(e) => handleUpdatedFieldChange(index, 'obtainedMarks', e.target.value)}
+                                        required
+                                    />
+                                    <Input
+                                        type="text"
+                                        placeholder='Hightest Marks'
+                                        className='mb-3 w-100'
+                                        size='large'
+                                        value={updateField.highestMarks}
+                                        onChange={(e) => handleUpdatedFieldChange(index, 'highestMarks', e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <hr />
+                            </div>
+                            <button
+                                onClick={() => updatedAddField(index)}
+                                type="button"
+                                className='btn btn-light mb-3 ms-2 p-0'
+                            >
+                                <i className="fa-solid fa-circle-plus" />
                             </button>
                         </div>
                     ))}
@@ -650,7 +740,7 @@ const PublishResult = () => {
                     </div>
                 </form>
             </Modal>
-            <Modal open={modalVisible} onCancel={() => setModalVisible(false)} footer={null}>
+            <Modal open={modalVisible} onCancel={() => setModalVisible(false)} width={750} footer={null}>
                 <div>
                     <h5 className='text-center'>Result</h5>
                     <div className='text-center my-3'>
@@ -669,7 +759,11 @@ const PublishResult = () => {
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Subject</th>
-                                <th scope="col">Marks</th>
+                                <th scope="col">Chapter/Topic</th>
+                                <th scope="col">Set</th>
+                                <th scope="col">Pattern</th>
+                                <th scope="col">Obtained</th>
+                                <th scope="col">Highest</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -679,7 +773,11 @@ const PublishResult = () => {
                                         <tr key={i}>
                                             <td>{i + 1}</td>
                                             <td>{s.subject}</td>
-                                            <td>{s.marks}</td>
+                                            <td>{s.topic}</td>
+                                            <td>{s.set}</td>
+                                            <td>{s.pattern}</td>
+                                            <td>{s.obtainedMarks}</td>
+                                            <td>{s.highestMarks}</td>
                                         </tr>
                                     )
                                 })
