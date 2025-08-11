@@ -99,36 +99,38 @@ const ViewResult = () => {
                     <h6 className='text-center my-3'>
                         {selected?.type}: {selected?.examDate && dayjs(selected.examDate).format('MMM DD, YYYY')}
                     </h6>
-                    <table className="table table-striped">
-                        <thead className='table-dark'>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Subject</th>
-                                <th scope="col">Chapter/Topic</th>
-                                <th scope="col">Set</th>
-                                <th scope="col">Pattern</th>
-                                <th scope="col">Obtained</th>
-                                <th scope="col">Highest</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                selected && selected.subjects.map((s, i) => {
-                                    return (
-                                        <tr key={i}>
-                                            <td>{i + 1}</td>
-                                            <td>{s.subject}</td>
-                                            <td>{s.topic}</td>
-                                            <td>{s.set}</td>
-                                            <td>{s.pattern}</td>
-                                            <td>{s.obtainedMarks}</td>
-                                            <td>{s.highestMarks}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                    <div className="table-container">
+                        <table className="table table-striped">
+                            <thead className='table-dark'>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Chapter/Topic</th>
+                                    <th scope="col">Set</th>
+                                    <th scope="col">Pattern</th>
+                                    <th scope="col">Obtained</th>
+                                    <th scope="col">Highest</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    selected && selected.subjects.map((s, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td>{i + 1}</td>
+                                                <td>{s.subject}</td>
+                                                <td>{s.topic}</td>
+                                                <td>{s.set}</td>
+                                                <td>{s.pattern}</td>
+                                                <td>{s.obtainedMarks}</td>
+                                                <td>{s.highestMarks}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </Modal>
         </Layout >

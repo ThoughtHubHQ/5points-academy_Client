@@ -245,32 +245,32 @@ const AdminDashboard = () => {
                 footer={null}>
                 <h5 className='text-center mb-3'>Failed Registration List</h5>
                 <div className="table-container">
-   <table className='table'>
-                    <thead className='table-dark'>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Tried At</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {failedRegistration.map((f, i) => (
-                            <tr key={i}>
-                                <th>{i + 1}</th>
-                                <td>{f?.name}</td>
-                                <td>{f?.email}</td>
-                                <td>{dayjs(f?.createdAt).format('DD-MMM-YYYY hh:mm A')}</td>
-                                <td>
-                                    <button className="btn btn-danger fw-bold ms-1" onClick={() => deleteFailedRegistration(f?._id)}>
-                                        <i className="fa-solid fa-trash-can" />
-                                    </button>
-                                </td>
+                    <table className='table'>
+                        <thead className='table-dark'>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Tried At</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {failedRegistration.map((f, i) => (
+                                <tr key={i}>
+                                    <th>{i + 1}</th>
+                                    <td>{f?.name}</td>
+                                    <td>{f?.email}</td>
+                                    <td>{dayjs(f?.createdAt).format('DD-MMM-YYYY hh:mm A')}</td>
+                                    <td>
+                                        <button className="btn btn-danger fw-bold ms-1" onClick={() => deleteFailedRegistration(f?._id)}>
+                                            <i className="fa-solid fa-trash-can" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
 
             </Modal>

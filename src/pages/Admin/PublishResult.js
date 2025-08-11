@@ -754,36 +754,38 @@ const PublishResult = () => {
                             <b>{modalResult?.user?.name}</b>&nbsp;- {modalResult?.grade?.name}
                         </span>
                     </div>
-                    <table className="table table-striped">
-                        <thead className='table-dark'>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Subject</th>
-                                <th scope="col">Chapter/Topic</th>
-                                <th scope="col">Set</th>
-                                <th scope="col">Pattern</th>
-                                <th scope="col">Obtained</th>
-                                <th scope="col">Highest</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                modalResult && modalResult.subjects.map((s, i) => {
-                                    return (
-                                        <tr key={i}>
-                                            <td>{i + 1}</td>
-                                            <td>{s.subject}</td>
-                                            <td>{s.topic}</td>
-                                            <td>{s.set}</td>
-                                            <td>{s.pattern}</td>
-                                            <td>{s.obtainedMarks}</td>
-                                            <td>{s.highestMarks}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                    <div className="table-container">
+                        <table className="table table-striped">
+                            <thead className='table-dark'>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Chapter/Topic</th>
+                                    <th scope="col">Set</th>
+                                    <th scope="col">Pattern</th>
+                                    <th scope="col">Obtained</th>
+                                    <th scope="col">Highest</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    modalResult && modalResult.subjects.map((s, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td>{i + 1}</td>
+                                                <td>{s.subject}</td>
+                                                <td>{s.topic}</td>
+                                                <td>{s.set}</td>
+                                                <td>{s.pattern}</td>
+                                                <td>{s.obtainedMarks}</td>
+                                                <td>{s.highestMarks}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                     <div className='text-center form-text'>
                         {modalResult?.type}: {modalResult?.examDate && dayjs(modalResult.examDate).format('MMM DD, YYYY')}
                     </div>
