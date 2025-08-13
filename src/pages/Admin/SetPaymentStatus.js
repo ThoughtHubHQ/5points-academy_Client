@@ -253,15 +253,20 @@ const SetPaymentStatus = () => {
         p?.grade?.name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    //show result by month group
     const groupedPayment = filteredPayment.reduce((acc, p) => {
         const monthYear = dayjs(p?.paymentDate).format("MMMM YYYY");
         if (!acc[monthYear]) {
-            acc[monthYear] = [];
+            acc[monthYear] = {
+                payments: [],
+                totalAmount: 0
+            };
         }
-        acc[monthYear].push(p);
+        acc[monthYear].payments.push(p);
+        acc[monthYear].totalAmount += p?.amount || 0;
+
         return acc;
     }, {});
+
 
     //total payment amount calculate
     const totalAmount = filteredPayment.reduce((sum, p) => sum + p?.amount, 0);
@@ -611,10 +616,15 @@ const SetPaymentStatus = () => {
                                             ) : (Object.keys(groupedPayment).map((month) => (
                                                 <>
                                                     <tr className="table-primary">
-                                                        <td colSpan="11" className="fw-bold">{month}</td>
+                                                        <td colSpan="10" className="fw-bold">
+                                                            {month} ({groupedPayment[month].payments.length})
+                                                        </td>
+                                                        <td colSpan="1" className="fw-bold">
+                                                            Total: {groupedPayment[month].totalAmount} TK
+                                                        </td>
                                                     </tr>
 
-                                                    {groupedPayment[month].map((p, i) => (
+                                                    {groupedPayment[month].payments.map((p, i) => (
                                                         <tr key={p._id}>
                                                             <td className='ps-4'>
                                                                 <input
