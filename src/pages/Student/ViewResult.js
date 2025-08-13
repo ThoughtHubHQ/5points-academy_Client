@@ -81,29 +81,28 @@ const ViewResult = () => {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        ) : (
-                                            Object.keys(groupedResults).map((month) => (
-                                                <>
-                                                    <tr className="table-primary">
-                                                        <td colSpan="5" className="fw-bold">{month}</td>
-                                                    </tr>
+                                        ) : (Object.keys(groupedResults).map((month) => (
+                                            <>
+                                                <tr className="table-primary">
+                                                    <td colSpan="5" className="fw-bold">{month}</td>
+                                                </tr>
 
-                                                    {groupedResults[month].map((r, i) => (
-                                                        <tr key={r?._id}>
-                                                            <th scope='row'>{i + 1}</th>
-                                                            <td>{r?.grade.name}</td>
-                                                            <td>{r?.type}</td>
-                                                            <td>{dayjs(r?.examDate).format('MMM DD, YYYY')}</td>
-                                                            <td>
-                                                                <button className="btn btn-outline-primary" onClick={() => openModal(r)}>
-                                                                    <i className="fa-solid fa-square-poll-vertical" />
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </>
-                                            ))
-                                        )}
+                                                {groupedResults[month].map((r, i) => (
+                                                    <tr key={r?._id}>
+                                                        <th scope='row'>{i + 1}</th>
+                                                        <td>{r?.grade.name}</td>
+                                                        <td>{r?.type}</td>
+                                                        <td>{dayjs(r?.examDate).format('MMM DD, YYYY')}</td>
+                                                        <td>
+                                                            <button className="btn btn-outline-primary" onClick={() => openModal(r)}>
+                                                                <i className="fa-solid fa-square-poll-vertical" />
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </>
+                                        )))
+                                        }
                                     </tbody>
                                 </table>
                             )}

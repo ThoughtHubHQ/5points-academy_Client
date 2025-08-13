@@ -253,8 +253,18 @@ const SetPaymentStatus = () => {
         p?.grade?.name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    //show result by month group
+    const groupedPayment = filteredPayment.reduce((acc, p) => {
+        const monthYear = dayjs(p?.paymentDate).format("MMMM YYYY");
+        if (!acc[monthYear]) {
+            acc[monthYear] = [];
+        }
+        acc[monthYear].push(p);
+        return acc;
+    }, {});
+
     //total payment amount calculate
-    const totalAmount = filteredPayment.reduce((sum, p) => sum + p.amount, 0);
+    const totalAmount = filteredPayment.reduce((sum, p) => sum + p?.amount, 0);
 
     //delete individual payment status
     const handleDelete = async (pId) => {
@@ -598,69 +608,76 @@ const SetPaymentStatus = () => {
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            ) : (
-                                                filteredPayment.map((p, i) => (
-                                                    <tr key={p._id}>
-                                                        <td className='ps-4'>
-                                                            <input
-                                                                type="checkbox"
-                                                                className='form-check-input'
-                                                                checked={selectedPayment.includes(p._id)}
-                                                                onChange={() => handleSelectPayment(p._id)}
-                                                            />
-                                                        </td>
-                                                        <th scope="row">{i + 1}</th>
-                                                        <td>{p?.grade?.name}</td>
-                                                        <td>
-                                                            <div className="d-flex align-items-center">
-                                                                <img
-                                                                    className='me-1'
-                                                                    style={{ width: "23px", height: "23px", borderRadius: "100%" }}
-                                                                    src={p?.user.avatar}
-                                                                    alt="dp" />
-                                                                <span>{p?.user?.name}</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <Tooltip title={`Created: ${dayjs(p.createdAt).format('ddd, MMM D, YYYY h:mm A')} Updated: ${dayjs(p.updatedAt).format('ddd, MMM D, YYYY h:mm A')}`}>
-                                                                {p.remark}
-                                                            </Tooltip>
-                                                        </td>
-                                                        <td>TK. {p.amount}</td>
-                                                        <td>
-                                                            {methods.map((m) =>
-                                                                m.name === p.method ? (
-                                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                                        <img
-                                                                            src={m.logo}
-                                                                            alt={m.name}
-                                                                            style={{ width: 20, height: 20, marginRight: 5 }}
-                                                                        />
-                                                                        {m.name}
-                                                                    </div>
-                                                                ) : null
-                                                            )}
-                                                        </td>
-                                                        <td>{p.trxId}</td>
-                                                        <td>{dayjs(p?.paymentDate).format('DD MMMM YYYY')}</td>
-                                                        <td className='text-center'>
-                                                            <button className="btn btn-secondary" onClick={() => generateReceipt(p)}>
-                                                                <i className="fa-solid fa-download"></i>
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <div className='d-flex'>
-                                                                <button className='btn btn-primary mx-1' onClick={() => { openModal(p) }}>
-                                                                    <i className="fa-solid fa-pen-to-square" /> Edit
-                                                                </button>
-                                                                <button className="btn btn-danger fw-bold ms-1" onClick={() => handleDelete(p._id)}>
-                                                                    <i className="fa-solid fa-trash-can"></i> Delete
-                                                                </button>
-                                                            </div>
-                                                        </td>
+                                            ) : (Object.keys(groupedPayment).map((month) => (
+                                                <>
+                                                    <tr className="table-primary">
+                                                        <td colSpan="11" className="fw-bold">{month}</td>
                                                     </tr>
-                                                ))
-                                            )}
+
+                                                    {groupedPayment[month].map((p, i) => (
+                                                        <tr key={p._id}>
+                                                            <td className='ps-4'>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className='form-check-input'
+                                                                    checked={selectedPayment.includes(p._id)}
+                                                                    onChange={() => handleSelectPayment(p._id)}
+                                                                />
+                                                            </td>
+                                                            <th scope="row">{i + 1}</th>
+                                                            <td>{p?.grade?.name}</td>
+                                                            <td>
+                                                                <div className="d-flex align-items-center">
+                                                                    <img
+                                                                        className='me-1'
+                                                                        style={{ width: "23px", height: "23px", borderRadius: "100%" }}
+                                                                        src={p?.user.avatar}
+                                                                        alt="dp" />
+                                                                    <span>{p?.user?.name}</span>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <Tooltip title={`Created: ${dayjs(p.createdAt).format('ddd, MMM D, YYYY h:mm A')} Updated: ${dayjs(p.updatedAt).format('ddd, MMM D, YYYY h:mm A')}`}>
+                                                                    {p.remark}
+                                                                </Tooltip>
+                                                            </td>
+                                                            <td>TK. {p.amount}</td>
+                                                            <td>
+                                                                {methods.map((m) =>
+                                                                    m.name === p.method ? (
+                                                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                            <img
+                                                                                src={m.logo}
+                                                                                alt={m.name}
+                                                                                style={{ width: 20, height: 20, marginRight: 5 }}
+                                                                            />
+                                                                            {m.name}
+                                                                        </div>
+                                                                    ) : null
+                                                                )}
+                                                            </td>
+                                                            <td>{p.trxId}</td>
+                                                            <td>{dayjs(p?.paymentDate).format('DD MMMM YYYY')}</td>
+                                                            <td className='text-center'>
+                                                                <button className="btn btn-secondary" onClick={() => generateReceipt(p)}>
+                                                                    <i className="fa-solid fa-download"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <div className='d-flex'>
+                                                                    <button className='btn btn-primary mx-1' onClick={() => { openModal(p) }}>
+                                                                        <i className="fa-solid fa-pen-to-square" /> Edit
+                                                                    </button>
+                                                                    <button className="btn btn-danger fw-bold ms-1" onClick={() => handleDelete(p._id)}>
+                                                                        <i className="fa-solid fa-trash-can"></i> Delete
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </>)
+                                            ))
+                                            }
                                         </tbody>
                                     </table>
                             }

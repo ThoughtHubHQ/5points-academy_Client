@@ -259,10 +259,20 @@ const PublishResult = () => {
     // Filter content based on search query
     const filteredResult = result.filter(r =>
         dayjs(r?.examDate).format('DD MMMM YYYY').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.grade.name.toLowerCase().includes(searchQuery.toLowerCase())
+        r?.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        r?.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        r?.grade.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    //show result by month group
+    const groupedResults = filteredResult.reduce((acc, r) => {
+        const monthYear = dayjs(r?.examDate).format("MMMM YYYY");
+        if (!acc[monthYear]) {
+            acc[monthYear] = [];
+        }
+        acc[monthYear].push(r);
+        return acc;
+    }, {});
 
     //delete individual result
     const handleDelete = async (rId) => {
@@ -578,53 +588,58 @@ const PublishResult = () => {
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                ) : (
-                                                    filteredResult.map((r, i) => (
-                                                        <tr key={r._id}>
-                                                            <td className='ps-4'>
-                                                                <input
-                                                                    className='form-check-input'
-                                                                    type="checkbox"
-                                                                    checked={selectedResult.includes(r._id)}
-                                                                    onChange={() => handleSelectResult(r._id)}
-                                                                />
-                                                            </td>
-                                                            <th scope="row">{i + 1}</th>
-                                                            <td>{r?.grade?.name}</td>
-                                                            <td>
-                                                                <Tooltip title={`Created: ${dayjs(r.createdAt).format('ddd, MMM D, YYYY h:mm A')} Updated: ${dayjs(r.updatedAt).format('ddd, MMM D, YYYY h:mm A')}`}>
-                                                                    <div className="d-flex align-items-center">
-                                                                        <img
-                                                                            className='me-1'
-                                                                            style={{ width: "23px", height: "23px", borderRadius: "100%" }}
-                                                                            src={r?.user.avatar}
-                                                                            alt="dp" />
-                                                                        <span>{r?.user?.name}</span>
-                                                                    </div>
-                                                                </Tooltip>
-                                                            </td>
-                                                            <td>{r.type}</td>
-                                                            <td>{dayjs(r.examDate).format('DD MMM YYYY')}</td>
-                                                            <td>
-                                                                <button
-                                                                    onClick={() => openResultModal(r)}
-                                                                    className='btn btn-outline-primary'>
-                                                                    <i className="fa-solid fa-square-poll-vertical" />
-                                                                </button>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex">
-                                                                    <button className='btn btn-primary mx-1' onClick={() => { openModal(r) }}>
-                                                                        <i className="fa-solid fa-pen-to-square" /> Edit
-                                                                    </button>
-                                                                    <button className="btn btn-danger fw-bold ms-1" onClick={() => handleDelete(r._id)}>
-                                                                        <i className="fa-solid fa-trash-can" /> Delete
-                                                                    </button>
-                                                                </div>
-                                                            </td>
+                                                ) : (Object.keys(groupedResults).map((month) => (
+                                                    <>
+                                                        <tr className="table-primary">
+                                                            <td colSpan="8" className="fw-bold">{month}</td>
                                                         </tr>
-                                                    ))
-                                                )
+                                                        {groupedResults[month].map((r, i) => (
+                                                            <tr key={r._id}>
+                                                                <td className='ps-4'>
+                                                                    <input
+                                                                        className='form-check-input'
+                                                                        type="checkbox"
+                                                                        checked={selectedResult.includes(r._id)}
+                                                                        onChange={() => handleSelectResult(r._id)}
+                                                                    />
+                                                                </td>
+                                                                <th scope="row">{i + 1}</th>
+                                                                <td>{r?.grade?.name}</td>
+                                                                <td>
+                                                                    <Tooltip title={`Created: ${dayjs(r.createdAt).format('ddd, MMM D, YYYY h:mm A')} Updated: ${dayjs(r.updatedAt).format('ddd, MMM D, YYYY h:mm A')}`}>
+                                                                        <div className="d-flex align-items-center">
+                                                                            <img
+                                                                                className='me-1'
+                                                                                style={{ width: "23px", height: "23px", borderRadius: "100%" }}
+                                                                                src={r?.user.avatar}
+                                                                                alt="dp" />
+                                                                            <span>{r?.user?.name}</span>
+                                                                        </div>
+                                                                    </Tooltip>
+                                                                </td>
+                                                                <td>{r.type}</td>
+                                                                <td>{dayjs(r.examDate).format('DD MMM YYYY')}</td>
+                                                                <td>
+                                                                    <button
+                                                                        onClick={() => openResultModal(r)}
+                                                                        className='btn btn-outline-primary'>
+                                                                        <i className="fa-solid fa-square-poll-vertical" />
+                                                                    </button>
+                                                                </td>
+                                                                <td>
+                                                                    <div className="d-flex">
+                                                                        <button className='btn btn-primary mx-1' onClick={() => { openModal(r) }}>
+                                                                            <i className="fa-solid fa-pen-to-square" /> Edit
+                                                                        </button>
+                                                                        <button className="btn btn-danger fw-bold ms-1" onClick={() => handleDelete(r?._id)}>
+                                                                            <i className="fa-solid fa-trash-can" /> Delete
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </>)
+                                                ))
                                             }
                                         </tbody>
                                     </table>
