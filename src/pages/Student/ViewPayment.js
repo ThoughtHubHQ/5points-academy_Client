@@ -42,6 +42,16 @@ const ViewPayment = () => {
         getPayment();
     }, []);
 
+    //show result by month group
+    const groupedPayments = payment.reduce((acc, p) => {
+        const monthYear = dayjs(p.paymentDate).format("MMMM YYYY");
+        if (!acc[monthYear]) {
+            acc[monthYear] = [];
+        }
+        acc[monthYear].push(p);
+        return acc;
+    }, {});
+
     //total payment amount calculate
     const totalAmount = payment.reduce((sum, p) => sum + p.amount, 0);
 
@@ -212,7 +222,10 @@ const ViewPayment = () => {
                         <h3 className="text-center my-4">
                             <i className="fa-solid fa-credit-card pe-2" /> Payment Status
                         </h3>
-                        <h6 className='text-end'>Total paid: TK. {totalAmount}</h6>
+                        <span className='d-flex justify-content-between'>
+                            <h6 className='text-start'>Count: {payment.length}</h6>
+                            <h6 className='text-end'>Total paid: BDT {totalAmount}</h6>
+                        </span>
                         <div className="card mt-2 p-4 table-container">
                             {spinnerLoading ? <div className="d-flex flex-column align-items-center justify-content-center" style={{ height: "50vh" }}><Spinner /></div> : <table className="table table-striped">
                                 <thead className='table-dark'>
@@ -237,41 +250,47 @@ const ViewPayment = () => {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        ) : (
-                                            payment.map((p, i) => {
-                                                return (
-                                                    <tr key={p._id}>
-                                                        <th scope='row'>{i + 1}</th>
-                                                        <td>{p?.grade?.name}</td>
-                                                        <td>{p.remark}</td>
-                                                        <td>TK. {p.amount}</td>
-                                                        <td>
-                                                            {methods.map((m) =>
-                                                                m.name === p.method ? (
-                                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                                        <img
-                                                                            src={m.logo}
-                                                                            alt={m.name}
-                                                                            style={{ width: 20, height: 20, marginRight: 5 }}
-                                                                        />
-                                                                        {m.name}
-                                                                    </div>
-                                                                ) : null
-                                                            )}
-                                                        </td>
-                                                        <td>{p.trxId}</td>
-                                                        <td>{dayjs(p.paymentDate).format('MMM DD, YYYY')}</td>
-                                                        <td>
-                                                            <button className="btn btn-secondary" onClick={() => generateReceipt(p)}>
-                                                                <i className="fa-solid fa-download"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            })
+                                        ) : (Object.keys(groupedPayments).map((month) => (
+                                            <>
+                                                <tr className="table-primary">
+                                                    <td colSpan="8" className="fw-bold">{month}</td>
+                                                </tr>
+                                                {groupedPayments[month].map((p, i) => {
+                                                    return (
+                                                        <tr key={p._id}>
+                                                            <th scope='row'>{i + 1}</th>
+                                                            <td>{p?.grade?.name}</td>
+                                                            <td>{p.remark}</td>
+                                                            <td>TK. {p.amount}</td>
+                                                            <td>
+                                                                {methods.map((m) =>
+                                                                    m.name === p.method ? (
+                                                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                            <img
+                                                                                src={m.logo}
+                                                                                alt={m.name}
+                                                                                style={{ width: 20, height: 20, marginRight: 5 }}
+                                                                            />
+                                                                            {m.name}
+                                                                        </div>
+                                                                    ) : null
+                                                                )}
+                                                            </td>
+                                                            <td>{p.trxId}</td>
+                                                            <td>{dayjs(p.paymentDate).format('MMM DD, YYYY')}</td>
+                                                            <td>
+                                                                <button className="btn btn-secondary" onClick={() => generateReceipt(p)}>
+                                                                    <i className="fa-solid fa-download"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                            </>
+                                        ))
                                         )
                                     }
-                                </tbody>
+                                </tbody >
                             </table>}
 
                         </div>
