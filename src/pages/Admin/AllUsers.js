@@ -16,7 +16,7 @@ const AllUsers = () => {
     const [users, setUsers] = useState([]);
     const [grades, setGrades] = useState([]);
     const [updatedGrade, setUpdatedGrade] = useState('');
-    const [role] = useState([0, 2, 1]);
+    const [role] = useState([0, 2]);
     const [roleUpdateLoading, setRoleUpdateLoading] = useState(null);
     const [statuses] = useState(["Enabled", "Disabled"]);
     const [statusUpdateLoading, setStatusUpdateLoading] = useState(null);
@@ -297,9 +297,7 @@ const AllUsers = () => {
                                                                             {role.map((r, i) => (
                                                                                 <Option
                                                                                     key={i} value={r}>
-                                                                                    {r === 1 ? (
-                                                                                        <span className="badge text-bg-warning">Admin</span>
-                                                                                    ) : r === 2 ? (
+                                                                                    {r === 2 ? (
                                                                                         <span className="badge text-bg-info">Moderator</span>
                                                                                     ) : (
                                                                                         <span className="badge text-bg-success">Student</span>
