@@ -5,7 +5,7 @@ import { useAuth } from '../../context/auth';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { SearchOutlined } from '@ant-design/icons';
+import { LockFilled, SearchOutlined } from '@ant-design/icons';
 import { EyeOutlined } from '@ant-design/icons';
 import { Modal, Select, Alert, Input, Image, Tooltip } from 'antd';
 import dayjs from 'dayjs';
@@ -16,6 +16,8 @@ const AllUsers = () => {
     const [users, setUsers] = useState([]);
     const [grades, setGrades] = useState([]);
     const [updatedGrade, setUpdatedGrade] = useState('');
+    const [role] = useState([0, 2, 1]);
+    const [roleUpdateLoading, setRoleUpdateLoading] = useState(null);
     const [statuses] = useState(["Enabled", "Disabled"]);
     const [statusUpdateLoading, setStatusUpdateLoading] = useState(null);
     const [spinnerLoading, setSpinnerLoading] = useState(true);
@@ -101,8 +103,29 @@ const AllUsers = () => {
             getAllUsers();
         } catch (error) {
             console.error(error);
-            toast.error("Error update status");
+            toast.error("Error updating status");
             setStatusUpdateLoading(null);
+        }
+    }
+
+    //user role update
+    const handleRoleUpdate = async (rId, value) => {
+        let answer = window.confirm("Are you sure want to update this user's role?")
+        if (!answer) return;
+        setRoleUpdateLoading(rId);
+        try {
+            const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/auth/user-role/${rId}`, { role: value });
+            toast.success(data.message)
+            setRoleUpdateLoading(null);
+            getAllUsers();
+        } catch (error) {
+            // Check if backend sent a message
+            const backendMessage =
+                error.response?.data?.message ||
+                error.response?.data?.error ||
+                "Something went wrong";
+            toast.error(backendMessage);
+            setRoleUpdateLoading(null);
         }
     }
 
@@ -257,15 +280,44 @@ const AllUsers = () => {
                                                             <td>{u?.email}</td>
                                                             <td>{u?.phone}</td>
                                                             <td>{u?.answer}</td>
-                                                            <td >
+                                                            <td>
                                                                 {
-                                                                    u.role === 0 ? <span className="badge text-bg-success">Student</span> : u.role === 1 ? <span className="badge text-bg-warning">Admin</span> : <span className="badge text-bg-danger">Moderator</span>
+                                                                    u?.role === 1 ? (
+                                                                        <span className="badge text-bg-warning mx-1">Admin</span>
+                                                                    ) : (
+                                                                        <Select
+                                                                            loading={roleUpdateLoading === u?._id}
+                                                                            size='large'
+                                                                            style={{ width: 120 }}
+                                                                            className='mb-3 me-2'
+                                                                            value={u?.role}
+                                                                            onChange={(value) => handleRoleUpdate(u._id, value)}
+                                                                            required
+                                                                        >
+                                                                            {role.map((r, i) => (
+                                                                                <Option
+                                                                                    key={i} value={r}>
+                                                                                    {r === 1 ? (
+                                                                                        <span className="badge text-bg-warning">Admin</span>
+                                                                                    ) : r === 2 ? (
+                                                                                        <span className="badge text-bg-info">Moderator</span>
+                                                                                    ) : (
+                                                                                        <span className="badge text-bg-success">Student</span>
+                                                                                    )}
+                                                                                </Option>
+                                                                            ))}
+                                                                        </Select>
+
+                                                                    )
                                                                 }
+
                                                             </td>
                                                             <td>
                                                                 <div className="d-flex">
                                                                     {
-                                                                        u.role === 1 ? <span className="badge text-bg-info mx-1">Restricted</span> : (
+                                                                        u.role === 1 ? <span className="badge text-bg-warning mx-1">
+                                                                            <LockFilled />
+                                                                        </span> : (
                                                                             <Select
                                                                                 loading={statusUpdateLoading === u?._id}
                                                                                 size='large'
@@ -280,7 +332,9 @@ const AllUsers = () => {
                                                                         )
                                                                     }
                                                                     {
-                                                                        u?.role === 1 ? <span className="badge text-bg-info">Restricted</span> : (
+                                                                        u?.role === 1 ? <span className="badge text-bg-warning">
+                                                                            Restricted
+                                                                        </span> : (
                                                                             <button className="btn btn-danger fw-bold ms-1"
                                                                                 onClick={() => handleDelete(u?._id)}>
                                                                                 <i className="fa-solid fa-trash-can" /> Delete
