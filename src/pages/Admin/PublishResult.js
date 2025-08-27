@@ -8,14 +8,15 @@ import toast from 'react-hot-toast';
 import { SearchOutlined } from '@ant-design/icons';
 import { Modal, DatePicker, Select, Tooltip, Input } from 'antd';
 import dayjs from 'dayjs';
+import ModMenu from './ModeratorMenu';
 const dateFormat = 'DD-MMM-YYYY';
 const { Option } = Select;
 
 const PublishResult = () => {
+    const [auth] = useAuth();
     const [spinnerLoading, setSpinnerLoading] = useState(false);
     const [updateSpinnerLoading, setUpdateSpinnerLoading] = useState(false);
     const [listSpinnerLoading, setListSpinnerLoading] = useState(false);
-    const [auth] = useAuth();
     const [grades, setGrades] = useState([]);
     const [grade, setGrade] = useState("");
     const [users, setUsers] = useState([]);
@@ -349,7 +350,9 @@ const PublishResult = () => {
         <Layout title={"Admin - Publish Result"}>
             <div className="container-fluid mt-3 p-3">
                 <div className="row">
-                    <div className="col-md-3"><AdminMenu /></div>
+                    <div className="col-md-3">
+                        {auth?.user?.role === 1 ? <AdminMenu /> : <ModMenu/>}
+                    </div>
                     <div className="col-md-9">
                         <h2 className="text-center my-4 mb-md-5">
                             <i className="fa-solid fa-square-poll-vertical" /> Publish Result ({result.length})

@@ -81,7 +81,7 @@ const Header = () => {
                                         </NavLink>
                                         <ul className="dropdown-menu py-2" >
                                             <li className='px-1 mb-1'>
-                                                <NavLink to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "student"}`} className="dropdown-item rounded">
+                                                <NavLink to={`/dashboard/${auth?.user?.role === 1 ? "admin" : auth?.user?.role === 2 ? "mod" : "student"}`} className="dropdown-item rounded">
                                                     <i class="fa-solid fa-user"></i> Dashboard
                                                 </NavLink>
                                             </li>

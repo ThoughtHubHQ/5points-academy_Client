@@ -8,6 +8,7 @@ import ViewCourse from './pages/ViewCourse';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import AdminDashboard from './pages/Admin/AdminDashboard';
+import ModDashboard from './pages/Admin/ModeratorDashboard';
 import StudentDashboard from './pages/Student/StudentDashboard';
 import ViewResult from './pages/Student/ViewResult';
 import ViewPayment from './pages/Student/ViewPayment';
@@ -28,6 +29,7 @@ import GradeCourse from './pages/GradeCourse';
 import CourseDetails from './pages/Student/CourseDetails';
 import ViewOrder from './pages/Student/ViewOrder';
 import OrderList from './pages/Admin/OrderList';
+import { ModRoute } from './components/Routes/ModRoute';
 
 function App() {
   return (
@@ -58,13 +60,23 @@ function App() {
         <Route element={<AdminRoute />}>
           <Route path='/dashboard/admin' element={<AdminDashboard />} />
           <Route path='/dashboard/admin/create-grade' element={<CreateGrade />} />
-          <Route path='/dashboard/admin/create-notice' element={<CreateNotice />} />
-          <Route path='/dashboard/admin/create-link' element={<CreateContent />} />
           <Route path='/dashboard/admin/create-course' element={<CreateCourse />} />
-          <Route path='/dashboard/admin/create-result' element={<PublishResult />} />
           <Route path='/dashboard/admin/create-payment' element={<SetPaymentStatus />} />
           <Route path='/dashboard/admin/order-list' element={<OrderList />} />
           <Route path='/dashboard/admin/all-users' element={<AllUsers />} />
+
+          {/* Admins also inherit Mod routes */}
+          <Route path='/dashboard/admin/create-notice' element={<CreateNotice />} />
+          <Route path='/dashboard/admin/create-result' element={<PublishResult />} />
+          <Route path='/dashboard/admin/create-link' element={<CreateContent />} />
+        </Route>
+
+        {/* Mod routes */}
+        <Route element={<ModRoute />}>
+          <Route path='/dashboard/mod' element={<ModDashboard />} />
+          <Route path='/dashboard/mod/create-notice' element={<CreateNotice />} />
+          <Route path='/dashboard/mod/create-result' element={<PublishResult />} />
+          <Route path='/dashboard/mod/create-link' element={<CreateContent />} />
         </Route>
 
         <Route path='*' element={<PageNotFound />} />

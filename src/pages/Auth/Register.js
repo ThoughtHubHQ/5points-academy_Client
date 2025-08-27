@@ -58,7 +58,7 @@ const Register = () => {
         } catch (error) {
             console.log(error);
             toast.error(error.message, { id: loadingToastId });
-        }finally {
+        } finally {
             setOtpLoading(false);
         }
     }
@@ -67,7 +67,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const loadingToastId = toast.loading('Registering you...');
-    
+
         const registerData = new FormData();
         registerData.append('name', name);
         registerData.append('email', email);
@@ -76,10 +76,10 @@ const Register = () => {
         registerData.append('password', password);
         registerData.append('answer', answer);
         registerData.append('otp', otp);
-    
+
         try {
             const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, registerData);
-    
+
             if (res && res.data.success) {
                 toast.success(res.data.message, { id: loadingToastId });
                 navigate("/login");
@@ -93,10 +93,10 @@ const Register = () => {
             toast.error(errorMessage, { id: loadingToastId });
         }
     };
-    
+
     //redirect based on user auth
-    if (auth.token) {
-        auth.user.role === 1 ? navigate('/dashboard/admin') : navigate('/dashboard/student');
+    if (auth?.token) {
+        auth?.user?.role === 1 ? navigate('/dashboard/admin') : auth?.user?.role === 2 ? navigate('/dashboard/mod') : navigate('/dashboard/student');
     }
 
     return (
@@ -232,9 +232,9 @@ const Register = () => {
                                         }
                                         addonAfter={
                                             otpLoading ? <Spin size="small" />
-                                            : <span onClick={handleOtp} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                                              Get OTP
-                                            </span>
+                                                : <span onClick={handleOtp} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                                                    Get OTP
+                                                </span>
                                         }
                                         type="text"
                                         value={otp}

@@ -54,8 +54,8 @@ const Login = () => {
     };
 
     //redirection based on auth
-    if (auth.token) {
-        auth.user.role === 1 ? navigate('/dashboard/admin') : navigate('/dashboard/student');
+    if (auth?.token) {
+        auth?.user?.role === 1 ? navigate('/dashboard/admin') : auth?.user?.role === 2 ? navigate('/dashboard/mod') : navigate('/dashboard/student');
     }
 
     return (
@@ -90,7 +90,7 @@ const Login = () => {
                                 <Input.Password
                                     prefix={
                                         <span style={{ paddingRight: '4px' }}>
-                                            <LockOutlined/>
+                                            <LockOutlined />
                                         </span>
                                     }
                                     type='password'

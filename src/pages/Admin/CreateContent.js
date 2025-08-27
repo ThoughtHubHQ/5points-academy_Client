@@ -8,9 +8,12 @@ import { Link } from 'react-router-dom';
 import { SearchOutlined, LinkOutlined } from '@ant-design/icons';
 import { Input, Modal, Select, Tooltip } from 'antd';
 import dayjs from 'dayjs';
+import { useAuth } from '../../context/auth';
+import ModMenu from './ModeratorMenu';
 const { Option } = Select;
 
 const CreateContent = () => {
+    const [auth] = useAuth();
     const [spinnerLoading, setSpinnerLoading] = useState(false);
     const [updateSpinnerLoading, setUpdateSpinnerLoading] = useState(false);
     const [listSpinnerLoading, setListSpinnerLoading] = useState(false);
@@ -253,7 +256,9 @@ const CreateContent = () => {
         <Layout title={"Admin - Create Content Link"}>
             <div className="container-fluid mt-3 p-3">
                 <div className="row">
-                    <div className="col-md-3"><AdminMenu /></div>
+                    <div className="col-md-3">
+                    {auth?.user?.role === 1 ? <AdminMenu /> : <ModMenu />}
+                        </div>
                     <div className="col-md-9">
                         <h2 className="text-center my-4 mb-md-5">
                             <i className="fa-solid fa-link" /> Create Content ({content.length})

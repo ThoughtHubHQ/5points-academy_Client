@@ -10,10 +10,13 @@ import { Alert, Image, Input, Modal, Select, Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useAuth } from '../../context/auth';
+import ModMenu from './ModeratorMenu';
 
 const { Option } = Select;
 
 const CreateNotice = () => {
+    const [auth] = useAuth();
     const [spinnerLoading, setSpinnerLoading] = useState(false);
     const [updateSpinnerLoading, setUpdateSpinnerLoading] = useState(false);
     const [listSpinnerLoading, setListSpinnerLoading] = useState(false);
@@ -294,7 +297,9 @@ const CreateNotice = () => {
         <Layout title={"Admin - Create Notice"}>
             <div className="container-fluid mt-3 p-3">
                 <div className="row">
-                    <div className="col-md-3"><AdminMenu /></div>
+                    <div className="col-md-3">
+                    {auth?.user?.role === 1 ? <AdminMenu /> : <ModMenu/>}
+                    </div>
                     <div className="col-md-9">
                         <h2 className="text-center my-4 mb-md-5">
                             <i className="fa-solid fa-bell" />Create Notice ({notice.length})
@@ -560,7 +565,7 @@ const CreateNotice = () => {
                             size='large'
                             className='mb-3 me-2 w-100'
                             value={updatedGrade || null}
-                            onChange={(value) => { setUpdatedGrade(value|| null) }}>
+                            onChange={(value) => { setUpdatedGrade(value || null) }}>
                             {grades?.map(g => (
                                 <Option key={g?._id} value={g?._id}>{g?.name}</Option>
                             ))}
